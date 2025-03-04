@@ -49,7 +49,7 @@ ConversorUnidades/
 
 1. Clona el repositorio con `git clone https://github.com/Elabsurdo984/Conversor-de-Unidades.git`
 2. Abre tu proyecto en tu editor de codigo favorito
-3. Si no tienes Python instalado, instalalo ([aquí] (https://www.python.org))
+3. Si no tienes Python instalado, instalalo [aquí](https://www.python.org)
 4. Una vez que instalaste Python, vuelve al proyecto.
 5. Con una terminal, viaja al proyecto `cd Conversor-de-Unidades/src`
 6. Una vez en el proyecto, instala el compilador de python `pip install pyinstaller`
