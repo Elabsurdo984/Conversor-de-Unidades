@@ -1,89 +1,136 @@
+import tkinter as tk
+from tkinter import messagebox, simpledialog
 from utils.conversions import convertir_longitud, convertir_peso, convertir_temperatura
 
-def obtener_valor_numerico():
-    """Solicita y valida un valor numérico del usuario."""
-    while True:
+class MenuApp:
+    def __init__(self, master):
+        self.master = master
+        master.geometry("400x500")
+        master.configure(bg='#f0f0f0')
+
+        self.create_main_menu()
+
+    def create_main_menu(self):
+        """Create the main menu with conversion options."""
+        tk.Label(self.master, text="Conversor de Unidades", 
+                 font=("Arial", 16, "bold"), 
+                 bg='#f0f0f0').pack(pady=20)
+
+        conversion_types = [
+            ("Longitud", self.abrir_menu_longitud),
+            ("Peso", self.abrir_menu_peso),
+            ("Temperatura", self.abrir_menu_temperatura)
+        ]
+
+        for label, command in conversion_types:
+            btn = tk.Button(self.master, text=label, 
+                            command=command, 
+                            width=20, 
+                            font=("Arial", 12))
+            btn.pack(pady=10)
+
+        tk.Button(self.master, text="Salir", 
+                  command=self.master.quit, 
+                  width=20, 
+                  font=("Arial", 12), 
+                  bg='#ff6b6b').pack(pady=20)
+
+    def abrir_menu_longitud(self):
+        """Open Longitude Conversion Menu"""
+        longitud_window = tk.Toplevel(self.master)
+        longitud_window.title("Conversor de Longitud")
+        longitud_window.geometry("400x500")
+
+        tk.Label(longitud_window, text="Conversiones de Longitud", 
+                 font=("Arial", 14, "bold")).pack(pady=10)
+
+        conversiones = [
+            "Metros a Kilómetros",
+            "Kilómetros a Metros",
+            "Centímetros a Metros",
+            "Metros a Centímetros",
+            "Milímetros a Centímetros",
+            "Centímetros a Milímetros",
+            "Metros a Milímetros",
+            "Milímetros a Metros",
+            "Centímetros a Kilómetros",
+            "Kilómetros a Centímetros"
+        ]
+
+        for i, conv in enumerate(conversiones, 1):
+            btn = tk.Button(longitud_window, text=conv, 
+                            command=lambda x=i: self.realizar_conversion_longitud(x))
+            btn.pack(pady=5, padx=20, fill=tk.X)
+
+    def abrir_menu_peso(self):
+        """Open Weight Conversion Menu"""
+        peso_window = tk.Toplevel(self.master)
+        peso_window.title("Conversor de Peso")
+        peso_window.geometry("400x300")
+
+        tk.Label(peso_window, text="Conversiones de Peso", 
+                 font=("Arial", 14, "bold")).pack(pady=10)
+
+        conversiones = [
+            "Kilogramos a Gramos",
+            "Gramos a Kilogramos",
+            "Libras a Kilogramos",
+            "Kilogramos a Libras"
+        ]
+
+        for i, conv in enumerate(conversiones, 1):
+            btn = tk.Button(peso_window, text=conv, 
+                            command=lambda x=i: self.realizar_conversion_peso(x))
+            btn.pack(pady=5, padx=20, fill=tk.X)
+
+    def abrir_menu_temperatura(self):
+        """Open Temperature Conversion Menu"""
+        temperatura_window = tk.Toplevel(self.master)
+        temperatura_window.title("Conversor de Temperatura")
+        temperatura_window.geometry("400x250")
+
+        tk.Label(temperatura_window, text="Conversiones de Temperatura", 
+                 font=("Arial", 14, "bold")).pack(pady=10)
+
+        conversiones = [
+            "Celsius a Fahrenheit",
+            "Fahrenheit a Celsius"
+        ]
+
+        for i, conv in enumerate(conversiones, 1):
+            btn = tk.Button(temperatura_window, text=conv, 
+                            command=lambda x=i: self.realizar_conversion_temperatura(x))
+            btn.pack(pady=5, padx=20, fill=tk.X)
+
+    def realizar_conversion_longitud(self, tipo_conversion):
+        """Perform Longitude Conversion"""
         try:
-            return float(input("Ingresa el valor a convertir: "))
-        except ValueError:
-            print("Error: Debes ingresar un número válido. Intenta de nuevo.")
-            
-def obtener_opcion(max_opcion):
-    """Solicita y valida una opción del usuario."""
-    while True:
-        opcion = input(f"Selecciona una opción (1-{max_opcion}): ")
+            valor = simpledialog.askfloat("Entrada", 
+                                           "Ingresa el valor a convertir:")
+            if valor is not None:
+                _, mensaje = convertir_longitud(tipo_conversion, valor)
+                messagebox.showinfo("Resultado", mensaje)
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+    def realizar_conversion_peso(self, tipo_conversion):
+        """Perform Weight Conversion"""
         try:
-            opcion_num = int(opcion)
-            if 1 <= opcion_num <= max_opcion:
-                return opcion_num
-            else:
-                print(f"Error: Debes seleccionar un número entre 1 y {max_opcion}.")
-        except ValueError:
-            print("Error: Debes ingresar un número válido.")
+            valor = simpledialog.askfloat("Entrada", 
+                                           "Ingresa el valor a convertir:")
+            if valor is not None:
+                _, mensaje = convertir_peso(tipo_conversion, valor)
+                messagebox.showinfo("Resultado", mensaje)
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
 
-def menu_longitud():
-    """Muestra el menú de conversión de longitud."""
-    print("\n--- Conversor de Longitud ---")
-    print("1. Metros a Kilómetros")
-    print("2. Kilómetros a Metros")
-    print("3. Centímetros a Metros")
-    print("4. Metros a Centímetros")
-    print("5. Milímetros a Centímetros")
-    print("6. Centímetros a Milímetros")
-    print("7. Metros a Milímetros")
-    print("8. Milímetros a Metros")
-    print("9. Centimetros a Kilometros")
-    print("10. Kilometros a Centimetros")
-    
-    opcion = obtener_opcion(10)
-    valor = obtener_valor_numerico()
-    
-    _, mensaje = convertir_longitud(opcion, valor)
-    print(mensaje)
-
-def menu_peso():
-    """Muestra el menú de conversión de peso."""
-    print("\n--- Conversor de Peso ---")
-    print("1. Kilogramos a Gramos")
-    print("2. Gramos a Kilogramos")
-    print("3. Libras a Kilogramos")
-    print("4. Kilogramos a Libras")
-    
-    opcion = obtener_opcion(4)
-    valor = obtener_valor_numerico()
-    
-    _, mensaje = convertir_peso(opcion, valor)
-    print(mensaje)
-
-def menu_temperatura():
-    """Muestra el menú de conversión de temperatura."""
-    print("\n--- Conversor de Temperatura ---")
-    print("1. Celsius a Fahrenheit")
-    print("2. Fahrenheit a Celsius")
-    
-    opcion = obtener_opcion(2)
-    valor = obtener_valor_numerico()
-    
-    _, mensaje = convertir_temperatura(opcion, valor)
-    print(mensaje)
-
-def menu_principal():
-    """Muestra el menú principal de la aplicación."""
-    while True:
-        print("\n--- Conversor de Unidades ---")
-        print("1. Longitud")
-        print("2. Peso")
-        print("3. Temperatura")
-        print("4. Salir")
-
-        opcion = obtener_opcion(4)
-
-        if opcion == 1:
-            menu_longitud()
-        elif opcion == 2:
-            menu_peso()
-        elif opcion == 3:
-            menu_temperatura()
-        elif opcion == 4:
-            print("¡Adiós!")
-            break
+    def realizar_conversion_temperatura(self, tipo_conversion):
+        """Perform Temperature Conversion"""
+        try:
+            valor = simpledialog.askfloat("Entrada", 
+                                           "Ingresa el valor a convertir:")
+            if valor is not None:
+                _, mensaje = convertir_temperatura(tipo_conversion, valor)
+                messagebox.showinfo("Resultado", mensaje)
+        except Exception as e:
+            messagebox.showerror("Error", str(e))

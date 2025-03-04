@@ -1,10 +1,15 @@
-from menu import menu_principal
+import tkinter as tk
+from tkinter import messagebox
+from menu import MenuApp
+
+def main():
+    try:
+        root = tk.Tk()
+        root.title("Conversor de Unidades")
+        app = MenuApp(root)
+        root.mainloop()
+    except Exception as e:
+        messagebox.showerror("Error Inesperado", f"Ocurrió un error: {e}")
 
 if __name__ == "__main__":
-    try:
-        menu_principal()
-    except KeyboardInterrupt:
-        print("\n\nPrograma interrumpido por el usuario. ¡Adiós!")
-    except Exception as e:
-        print(f"\nError inesperado: {e}")
-        print("El programa se cerrará.")
+    main()
