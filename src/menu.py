@@ -32,8 +32,10 @@ def menu_longitud():
     print("6. Centímetros a Milímetros")
     print("7. Metros a Milímetros")
     print("8. Milímetros a Metros")
+    print("9. Centimetros a Kilometros")
+    print("10. Kilometros a Centimetros")
     
-    opcion = obtener_opcion(8)
+    opcion = obtener_opcion(10)
     valor = obtener_valor_numerico()
     
     _, mensaje = convertir_longitud(opcion, valor)

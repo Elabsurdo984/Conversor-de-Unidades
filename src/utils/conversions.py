@@ -8,7 +8,9 @@ def convertir_longitud(tipo_conversion, valor):
         5: (valor / 10, f"{valor} milímetros son {valor / 10} centímetros"),
         6: (valor * 10, f"{valor} centímetros son {valor * 10} milímetros"),
         7: (valor * 1000, f"{valor} metros son {valor * 1000} milímetros"),
-        8: (valor / 1000, f"{valor} milímetros son {valor / 1000} metros")
+        8: (valor / 1000, f"{valor} milímetros son {valor / 1000} metros"),
+        9: (valor / 100000, f"{valor} centimetros son {valor / 100000} kilometros"),
+        10: (valor * 100000, f"{valor} kilometros son {valor * 100000} centimetros")
     }
     
     return conversiones.get(tipo_conversion, (None, "Opción no válida"))
